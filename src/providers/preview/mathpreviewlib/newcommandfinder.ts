@@ -80,7 +80,21 @@ function findNewCommand(content: string): string[] {
             if (result[2]) {
                 command = command.replace('*', '')
             }
-            commands.push(command)
+            let count = 0
+            for (let c of command) {
+                if (c == '{') {
+                    count += 1
+                }
+                if (c == '}') {
+                    count -= 1
+                }
+                if (count < 0) {
+                    break
+                }
+            }
+            if (count == 0) {
+                commands.push(command)
+            }
         }
     } while (result)
     return commands
